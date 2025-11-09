@@ -200,7 +200,7 @@ LEAD MESSAGE:
 From: {lead_message.sender_name}
 Company: {lead_message.company_name or "Unknown"}
 Source: {lead_message.source.value}
-Temperature: {lead_message.temperature.value}
+Temperature: {lead_message.lead_temperature.value}
 Message: {lead_message.message_content}
 
 CONTEXT:
@@ -656,7 +656,14 @@ def quick_test_mode():
             print(f"❌ Error: {e}")
 
         if i < len(test_leads):
-            input("\n[Press Enter for next test lead...]")
+            try:
+                import sys
+                if sys.stdin.isatty():
+                    input("\n[Press Enter for next test lead...]")
+                else:
+                    print("\n" + "-"*80 + "\n")
+            except (EOFError, KeyboardInterrupt):
+                print("\n" + "-"*80 + "\n")
 
 
 def main():
